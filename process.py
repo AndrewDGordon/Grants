@@ -2,21 +2,20 @@
 
 import json
 
-funder='GB-GOR-PB188'
-with open(funder+'.json') as f:
-    data = json.load(f)
+with open('inputs.json') as g:
+    inputs = json.load(g)
 
-#print(data)
+print(json.dumps(inputs, indent=2))
 
-recipients = [ item['org_name'] for item in data['data'] ]
-output = {'funder': funder, 'recipients': recipients}
-jsonString = json.dumps(output, indent=2)
-
-# print(jsonString)
-
-file = r'output/'+funder+r'.json'
-print(file)
-
-myText = open(file,'w')
-myText.write(jsonString)
-myText.close()
+for funder in inputs['ids']:
+    print(funder)
+    with open(funder+'.json') as f:
+        data = json.load(f)
+    recipients = [ item['org_name'] for item in data['data'] ]
+    output = {'funder': funder, 'recipients': recipients}
+    jsonString = json.dumps(output, indent=2)
+    file = r'output/'+funder+r'.json'
+    print(file)
+    myText = open(file,'w')
+    myText.write(jsonString)
+    myText.close()
